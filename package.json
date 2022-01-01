@@ -5,8 +5,8 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node server",
-    "devStart": "nodemon server"
+    "start": "cross-env NODE_ENV=prod node server",
+    "dev": "cross-env NODE_ENV=dev nodemon server"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
     "mongoose": "^6.1.4"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "nodemon": "^2.0.15"
   }
 }
