@@ -34,5 +34,8 @@
   "jest": {
     "testEnvironment": "node",
     "transform": {}
+  },
+  "engines": {
+    "node": "15.x"
   }
 }
