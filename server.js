@@ -25,3 +25,10 @@ app.listen(
   PORT,
   console.log(`${process.env.NODE_ENV} server started on port ${PORT}`)
 );
+
+//uncaught exception handling
+process.on('uncaughtException', function (err) {
+  console.error((new Date).toUTCString() + ' uncaughtException:', err.message)
+  console.error(err.stack)
+  process.exit(1)
+});
