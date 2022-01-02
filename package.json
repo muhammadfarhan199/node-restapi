@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "cross-env NODE_ENV=prod node server",
-    "dev": "cross-env NODE_ENV=dev nodemon server"
+    "dev": "cross-env NODE_ENV=dev nodemon server",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules npx jest"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,12 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
+    "jest": "^27.4.5",
+    "mongodb-memory-server": "^8.1.0",
     "nodemon": "^2.0.15"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {}
   }
 }

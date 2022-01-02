@@ -5,15 +5,16 @@ import routes from './routes/index.js'
 import connectdb from './helpers/db.js';
 
 //load env config
-dotenv.config({path: './config/config.env'});
+dotenv.config({ path: './config/config.env' });
 
 //database connection
 connectdb();
 
+//configure express
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json()) // To parse the incoming requests with JSON payloads
 
 //load routes

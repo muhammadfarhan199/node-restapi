@@ -2,6 +2,7 @@ const isDate = (date) => {
   return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
 }
 
+//setting up the express validator for validating the request model
 const requestValidationSchema = {
   startDate: {
     custom: {

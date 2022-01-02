@@ -1,14 +1,21 @@
 import express from "express";
 import { checkSchema, validationResult } from 'express-validator';
 
-import records from '../models/Records.js'
 import requestValidationSchema from '../validators/requestPayload.js'
+import recordService from '../service/records.js'
+import RequestModel from '../models/RequestModel.js'
 
+//setup express router
 const router = express.Router();
 
 //@route POST/
+/**
+ * Post method serving recods from collection
+ */
 router.post(
-  '/',
+  //endpoint url
+  '/getrecords',
+  //request validation
   checkSchema(requestValidationSchema),
   async (req, res) => {
     try {
@@ -17,42 +24,15 @@ router.post(
         return res.status(400).json({ code: 403, msg: "Invalid Request", errors: errors.array({ onlyFirstError: true }).map(x => x.msg) });
       }
 
-      //query db for records
-      let dbRecords = await records.aggregate([
-        {
-          $match: {
-            createdAt: {
-              $gte: new Date(req.body.startDate),
-              $lt: new Date(req.body.endDate)
-            }
-          }
-        },
-        {
-          $project: {
-            _id: 0,
-            key: "$key",
-            createdAt: "$createdAt",
-            totalCount: {
-              $sum: "$counts"
-            }
-          }
-        },
-        {
-          $match: {
-            totalCount: {
-              $gte: parseInt(req.body.minCount),
-              $lt: parseInt(req.body.maxCount)
-            }
-          }
-        }
-      ]).sort({ createdAt: 'desc' });
+      //call service for fetching records
+      const dbRecords = await recordService.getRecordsByFilter(new RequestModel(req.body));
 
       //send response
       res.status(200).json({ code: 200, msg: 'Success', records: dbRecords });
 
     } catch (err) {
       console.error(err);
-      res.status(400).json({ error: err });
+      res.status(400).json({ msg: "Error", error: err });
     }
   }
 );
